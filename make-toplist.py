@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 #['100-metres', '400-metres', 'long-jump', 'shot-put', 'decathlon' ,'50-kilometres-race-walk'] etc.
 EVENTS='100-metres'
 
-#['Outdoor', 'Indoor']
+#['outdoor', 'indoor']
 ENVRMNT='outdoor'
 
 #['men','women']
