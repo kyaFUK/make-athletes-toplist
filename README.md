@@ -10,25 +10,25 @@ e.g.
 EVENTS='100-metres'
 
 ## Environment
-Chose 'Outdoor' or 'Indoor'
+Chose 'outdoor' or 'indoor'
 
 e.g.
 ENVRMNT='outdoor'
 
 ## Gender
-Choose 'men','women'
+Choose 'men' or 'women'
 
 e.g.
 GENDER='men'
 
 ## Age
-Choose 'Senior', 'U20' 'U18'
+Choose 'Senior', 'U20', or 'U18'
 
 e.g.
 AGE='senior'
 
 ## Number of competitors in your list
-Decide the number of people in your list
+Decide the number of competitors in your list
 
 e.g.
 MAX_=100
