@@ -7,7 +7,7 @@ This code can generate the athletes' top-list made of data sourced by the World 
 source run.sh
 ```
 
-To change attributes, edit 'run.sh'.
+To change attributes, edit run.sh.
 ## Example of internal of run.sh
 ```
 python make-toplist.py \
@@ -29,7 +29,7 @@ e.g.
 ```
 
 ## Environment
-Chose outdoor or indoor
+Chose outdoor or indoor.
 
 e.g.
 ```
@@ -37,7 +37,7 @@ e.g.
 ```
 
 ## Gender
-Choose men or women
+Choose men or women.
 
 ```
 --GENDER men
@@ -52,7 +52,7 @@ e.g.
 ```
 
 ## Number of competitors in your list
-Decide the number of competitors in your list
+Decide the number of competitors in your list.
 
 e.g.
 ```
@@ -60,7 +60,7 @@ e.g.
 ```
 
 ## Output Directory
-Set output directory
+Set output directory.
 
 e.g.
 ```
