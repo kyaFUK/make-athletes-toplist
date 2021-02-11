@@ -44,7 +44,7 @@ Choose men or women.
 ```
 
 ## Age
-Choose 'Senior', 'U20', or 'U18'
+Choose senior, U20, or U18
 
 e.g.
 ```
