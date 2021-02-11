@@ -1,85 +1,74 @@
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup 
+import numpy as np
+from argparse import ArgumentParser
+import walorder as wa
 
-#####   Parameter Settings ##################################################################################
+argparser = ArgumentParser()
+argparser.add_argument('-evt', '--EVENT', type=str, default='100-metres', help='referenced event')
+argparser.add_argument('-evr', '--ENVRMNT', type=str, default='outdoor', help='referenced environment')
+argparser.add_argument('-gdr', '--GENDER', type=str, default='men', help='referenced gender')
+argparser.add_argument('-age', '--AGE', type=str, default='senior', help='referenced age')
+argparser.add_argument('-num', '--NUMBER', type=int, default=100, help='num of competitors')
+argparser.add_argument('-odir', '--ODIR', type=str, default='./', help='output directoty')
+args = argparser.parse_args()
+#####   Parameter Settings   ##################################################################################
 
 #['100-metres', '400-metres', 'long-jump', 'shot-put', 'decathlon' ,'50-kilometres-race-walk'] etc.
-EVENTS='100-metres'
+EVENT=args.EVENT
 
 #['outdoor', 'indoor']
-ENVRMNT='outdoor'
+ENVRMNT=args.ENVRMNT
 
 #['men','women']
-GENDER='men'
+GENDER=args.GENDER
 
 #['Senior', 'U20' 'U18']
-AGE='senior'
+AGE=args.AGE
 
 #Number of competitors in your list
-MAX_=100
-##############################################################################################################
+MAX_=args.NUMBER
+
+OUTPUT_DIR = args.ODIR
+###############################################################################################################
 
 #Genre=['sprints','middle-long','road-running','jumps','throws','combined-events','race-walks','relays'] etc.
 GENRE='something'
 
 MAX_page=MAX_/100+1
-page=1
 
 
-while(page<MAX_page): 
-    html=requests.get('https://www.worldathletics.org/records/all-time-toplists/{}/{}/{}/{}/{}?page={}'.format(GENRE,EVENTS,ENVRMNT,GENDER,AGE,page))
-    soup = BeautifulSoup(html.content, "html.parser")
-    athletes=soup.find_all('tr')
-    if athletes==[]:
+def main():
+    page=1
+
+    while(page<MAX_page):
+        #Download
+        athletes_profile_html, input_void =wa.load(EVENT, ENVRMNT, GENDER, AGE, GENRE, page)
+
+        #If data is void, this program will be terminated.
+        if input_void:
+            break
+
+        #Define DataFrame and columns of data
         if page==1:
-            print("Request Error")
-        break
-
-    if page==1:
-        #columnの定義
-        columns=[]
-        for column in athletes[0].find_all('th'):
-            column=column.text.replace('\n', '').replace(' ', '')
-            if len(list(column))>0:
-                columns.append(column)
-        if EVENTS=='decathlon' or EVENTS=='heptathlon':
-            columns.append('Breakdown')
-        df = pd.DataFrame(index=[], columns=columns)
+            df = wa.make_DataFrame(athletes_profile_html, EVENT)
 
 
+        #Derive DataFrame from html      
+        if EVENT=='decathlon' or EVENT=='heptathlon':
+            df = wa.html_to_df_combine(athletes_profile_html, df)
+        else:
+            df = wa.html_to_df(athletes_profile_html, df)
+        page +=1
+        
+    #Split breakdown to each event columns    
+    if EVENT=='decathlon' or EVENT=='heptathlon':       
+        df = wa.split_combine_breakdown(df, EVENT)
+        
+        
+    df.to_csv(OUTPUT_DIR+'{}-{}_{}_{}.csv'.format(GENDER,EVENT,ENVRMNT,AGE), index=False)
+    print(df)
 
-                
-    if EVENTS=='decathlon' or EVENTS=='heptathlon':
-        for athlete , num in zip(athletes, range(len(athletes))):
-            if num%2==1:
-                records=athlete.find_all('td')
-                series=[]
-                for record in records:
-                    #column=record.get('data-th')
-                    if record.get('data-th')!=' ':
-                        series.append(record.text.replace('\n', '').replace(' ', ''))
-
-            elif num%2==0 and num!=0:
-                if(len(series)>0):
-                    bd=athlete.find_all('td')[1].text
-                    series.append(bd.replace('(', '').replace(')', ''))
-                    tmp=pd.Series(series, index=columns)
-                    df = df.append(tmp, ignore_index=True)
-                    
-    else:
-        for athlete in athletes:
-            records=athlete.find_all('td')
-            series=[]
-            for record in records:
-                #column=record.get('data-th')
-                if record.get('data-th')!=' ':
-                    series.append(record.text.replace('\n', '').replace(' ', ''))
-            if(len(series)>0):
-                tmp=pd.Series(series, index=columns)
-                df = df.append(tmp, ignore_index=True)
-                
-    page +=1
-
-df.to_csv('{}-{}_{}_{}.csv'.format(GENDER,EVENTS,ENVRMNT,AGE), index=False)
-print(df)
+if __name__ == "__main__":
+    main()
