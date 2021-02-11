@@ -10,7 +10,7 @@ source run.sh
 To change attributes, edit run.sh.
 ## Example of internal of run.sh
 ```
-python make-toplist.py \
+python main.py \
           --EVENT decathlon \
           --ENVRMNT outdoor \
           --GENDER men \
