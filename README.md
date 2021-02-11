@@ -27,7 +27,7 @@ python main.py \
 ```
 # Attributes 
 
-## EVENT
+## Event
 Chose 100-metres, 400-metres, long-jump, shot-put, decathlon ,50-kilometres-race-walk, or etc.
 
 e.g.
