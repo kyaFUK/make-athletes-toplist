@@ -2,6 +2,13 @@
 
 This code can generate the athletes' top-list made of data sourced by the World Athletics web site. You sholud choose some attributes.
 
+## EXAMPLE OF OUTPUT
+### men-100m
+![Test Image 1](img/100-metres.png)
+
+### men-decathlon
+![Test Image 1](img/decathlon.png)
+
 # RUN
 ```
 source run.sh
