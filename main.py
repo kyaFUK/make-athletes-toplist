@@ -24,7 +24,7 @@ ENVRMNT=args.ENVRMNT
 #['men','women']
 GENDER=args.GENDER
 
-#['Senior', 'U20' 'U18']
+#['Senior', 'u20' 'u18']
 AGE=args.AGE
 
 #Number of competitors in your list
