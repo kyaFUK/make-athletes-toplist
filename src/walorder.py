@@ -5,9 +5,9 @@ import numpy as np
 
 def load(EVENT='100-metres', ENVRMNT='outdoor', GENDER='men', AGE='senior',GENRE='something', page=1):
     if page>1:
-            url ='https://www.worldathletics.org/records/toplists/{}/{}/{}/{}/{}/{}?page={}'.format(GENRE,EVENT,ENVRMNT,GENDER,AGE,YEAR,page)
-        else:
-            url ='https://www.worldathletics.org/records/toplists/{}/{}/{}/{}/{}/{}'.format(GENRE,EVENT,ENVRMNT,GENDER,AGE,YEAR)
+        url ='https://www.worldathletics.org/records/toplists/{}/{}/{}/{}/{}/{}?page={}'.format(GENRE,EVENT,ENVRMNT,GENDER,AGE,YEAR,page)
+    else:
+        url ='https://www.worldathletics.org/records/toplists/{}/{}/{}/{}/{}/{}'.format(GENRE,EVENT,ENVRMNT,GENDER,AGE,YEAR)
     html=requests.get(url)
     soup = BeautifulSoup(html.content, "html.parser")
     athletes_profile_html=soup.find_all('tr')
